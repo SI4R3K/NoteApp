@@ -2,8 +2,21 @@ package com.example.notes;
 
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Component
+@Entity
 public class Notes {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
     private String content;
     private final LocalDateTime createdAt;

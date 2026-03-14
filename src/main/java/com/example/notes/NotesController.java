@@ -46,8 +46,8 @@ public class NotesController {
     
 
     @DeleteMapping("/{id}")
-    public boolean deleteNotesById(@PathVariable int id) {
-        return notesService.deleteNotesById(id);
+    public void deleteNotesById(@PathVariable int id) {
+        notesService.deleteNotesById(id);
     }
 
     @PutMapping("/{id}")
