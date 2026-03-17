@@ -1,4 +1,4 @@
-package com.example.notes;
+package com.example.notes.service;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.notes.exception.NoteNotFoundException;
+import com.example.notes.model.Notes;
 import com.example.notes.repository.NotesRepository;
 
 @Service
