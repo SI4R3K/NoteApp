@@ -7,38 +7,58 @@ import org.springframework.stereotype.Service;
 
 import com.example.notes.exception.NoteNotFoundException;
 import com.example.notes.model.Notes;
+import com.example.notes.model.Users;
 import com.example.notes.repository.NotesRepository;
 
 @Service
 public class NotesService {
 
+    private final AuthServive authService;
+
     @Autowired
     NotesRepository repo;
 
+    public NotesService(AuthServive authServive) {
+        this.authService = authServive;
+    }
+
     public Notes addNote(Notes notes) {
+        Users user = authService.getCurrentUser();
+
+        notes.setUser(user);
+
         return repo.save(notes);
     }
 
     public List<Notes> getAll() {
-        return this.repo.findAll();
+
+        Users user = authService.getCurrentUser();
+
+        return this.repo.findByUser(user);
     }
 
     public Notes getNotesById(int id) {
-        return repo.findById(id)
+
+        Users user = authService.getCurrentUser();
+
+        return repo.findByIdAndUser(id,user)
                 .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
     public void deleteNotesById(int id) {
-        if (!repo.existsById(id)) {
-            throw new NoteNotFoundException(id);
-        }
+        Users user = authService.getCurrentUser();
 
-        repo.deleteById(id);
+        Notes note = repo.findByIdAndUser(id, user)
+                    .orElseThrow(()-> new NoteNotFoundException(id));
+
+        repo.delete(note);
     }
 
     public Notes updateNotes(int id, Notes updatedNotes) {
 
-        Notes note = repo.findById(id)
+        Users user = authService.getCurrentUser();
+
+        Notes note = repo.findByIdAndUser(id,user)
                     .orElseThrow(() -> new NoteNotFoundException(id));
         
         note.setTitle(updatedNotes.getTitle());
@@ -49,8 +69,9 @@ public class NotesService {
     }
 
     public List<Notes> searchByTitle(String title) {
+        Users user = authService.getCurrentUser();
 
-        List<Notes> notes = repo.findByTitle(title);
+       List<Notes> notes = repo.findByTitleAndUser(title,user);
         
         if (notes.isEmpty()) {
             throw new NoteNotFoundException(title);
