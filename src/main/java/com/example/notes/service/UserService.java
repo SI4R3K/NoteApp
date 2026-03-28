@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.notes.model.Users;
@@ -13,7 +14,14 @@ import com.example.notes.repository.UserRepo;
 public class UserService {
 
     @Autowired
-    UserRepo repo;
+    private UserRepo repo;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    public Users register(Users user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        return repo.save(user);
+    }
 
     public List<Users> getAll() {
         return repo.findAll();

@@ -2,7 +2,7 @@ package com.example.notes.exception;
 
 public class NoteNotFoundException extends RuntimeException {
 
-    public NoteNotFoundException(int id) {
+    public NoteNotFoundException(Long id) {
         super("Note with the title '"+ id + "' was not found");
     }
 

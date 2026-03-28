@@ -37,7 +37,7 @@ public class NotesService {
         return this.repo.findByUser(user);
     }
 
-    public Notes getNotesById(int id) {
+    public Notes getNotesById(Long id) {
 
         Users user = authService.getCurrentUser();
 
@@ -45,7 +45,7 @@ public class NotesService {
                 .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
-    public void deleteNotesById(int id) {
+    public void deleteNotesById(Long id) {
         Users user = authService.getCurrentUser();
 
         Notes note = repo.findByIdAndUser(id, user)
@@ -54,7 +54,7 @@ public class NotesService {
         repo.delete(note);
     }
 
-    public Notes updateNotes(int id, Notes updatedNotes) {
+    public Notes updateNotes(Long id, Notes updatedNotes) {
 
         Users user = authService.getCurrentUser();
 

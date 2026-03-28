@@ -38,7 +38,7 @@ public class NotesController {
     }
 
     @GetMapping("/{id}")
-    public Notes getNotes(@PathVariable int id) {
+    public Notes getNotes(@PathVariable Long id) {
         return notesService.getNotesById(id);
     }
 
@@ -49,12 +49,12 @@ public class NotesController {
     
 
     @DeleteMapping("/{id}")
-    public void deleteNotesById(@PathVariable int id) {
+    public void deleteNotesById(@PathVariable Long id) {
         notesService.deleteNotesById(id);
     }
 
     @PutMapping("/{id}")
-    public Notes updateNotes(@PathVariable int id, @RequestBody Notes updatedNotes) {
+    public Notes updateNotes(@PathVariable Long id, @RequestBody Notes updatedNotes) {
         return notesService.updateNotes(id, updatedNotes);
     }
     

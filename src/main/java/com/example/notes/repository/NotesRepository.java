@@ -11,13 +11,13 @@ import java.util.Optional;
 
 
 @Repository
-public interface NotesRepository extends JpaRepository<Notes, Integer>{
+public interface NotesRepository extends JpaRepository<Notes, Long>{
 
     List<Notes> findByTitle(String title);
 
     List<Notes> findByUser(Users user);
 
-    Optional<Notes> findByIdAndUser(int id, Users user);
+    Optional<Notes> findByIdAndUser(Long id, Users user);
     List<Notes> findByTitleAndUser(String title, Users user);
 
 }
