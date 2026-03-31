@@ -1,9 +1,5 @@
 package com.example.notes.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,15 +27,5 @@ public class UsersController {
     public String login(@RequestBody Users user) {
         
         return userService.verify(user);
-    }
-
-    @GetMapping
-    public List<Users> getAllUsers() {
-        return userService.getAll();
-    }
-
-    @GetMapping("/{username}")
-    public Users getUserByUsername(@PathVariable String username) {
-        return userService.getUserByUsername(username);
     }
 }

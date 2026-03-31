@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.notes.model.Role;
 import com.example.notes.model.Users;
 import com.example.notes.repository.UserRepo;
 
@@ -21,11 +22,13 @@ public class DataSeeder {
                 admin.setUsername("admin");
                 admin.setEmail("admin@example.com");
                 admin.setPassword(encoder.encode("admin123"));
+                admin.setRole(Role.ADMIN);
 
                 Users bob = new Users();
                 bob.setUsername("bob");
                 bob.setEmail("bob@example.com");
                 bob.setPassword(encoder.encode("bob123"));
+                bob.setRole(Role.USER);
 
                 userRepo.save(admin);
                 userRepo.save(bob);

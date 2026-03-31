@@ -2,6 +2,7 @@ package com.example.notes.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,31 +29,35 @@ public class NotesController {
     }
 
     @PostMapping
-    public Notes createNote(@RequestBody Notes notes) {
+    public Notes createMyNote(@RequestBody Notes notes) {
         return notesService.addNote(notes);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
-    public List<Notes> getAllNotes() {
-        return notesService.getAll();
+    public List<Notes> getAllMyNotes() {
+        return notesService.getAllMyNotes();
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public Notes getNotes(@PathVariable Long id) {
-        return notesService.getNotesById(id);
+        return notesService.getMyNotesById(id);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/search")
     public List<Notes> getNotesByTitle(@RequestParam String title) {
         return notesService.searchByTitle(title);
     }
     
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteNotesById(@PathVariable Long id) {
         notesService.deleteNotesById(id);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping("/{id}")
     public Notes updateNotes(@PathVariable Long id, @RequestBody Notes updatedNotes) {
         return notesService.updateNotes(id, updatedNotes);

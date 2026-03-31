@@ -30,14 +30,14 @@ public class NotesService {
         return repo.save(notes);
     }
 
-    public List<Notes> getAll() {
+    public List<Notes> getAllMyNotes() {
 
         Users user = authService.getCurrentUser();
 
         return this.repo.findByUser(user);
     }
 
-    public Notes getNotesById(Long id) {
+    public Notes getMyNotesById(Long id) {
 
         Users user = authService.getCurrentUser();
 
@@ -69,6 +69,7 @@ public class NotesService {
     }
 
     public List<Notes> searchByTitle(String title) {
+
         Users user = authService.getCurrentUser();
 
        List<Notes> notes = repo.findByTitleAndUser(title,user);
@@ -78,5 +79,9 @@ public class NotesService {
         }
 
         return notes;
+    }
+
+    public List<Notes> getAllNotes() {
+        return this.repo.findAll();
     }
 }

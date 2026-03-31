@@ -1,5 +1,6 @@
 package com.example.notes.service;
 
+import com.example.notes.repository.UserRepo;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -23,9 +24,10 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTService {
 
+    private final UserRepo userRepo;
     private String secretKey = "";
 
-    public JWTService() {
+    public JWTService(UserRepo userRepo) {
 
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
@@ -34,6 +36,7 @@ public class JWTService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+        this.userRepo = userRepo;
     }
 
     public String generateToken(String username) {
@@ -42,6 +45,7 @@ public class JWTService {
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(username)
+            .claim("role", this.userRepo.findByUsername(username).getRole().name())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) //applicable for 30min
             .signWith(getKey())
@@ -82,6 +86,10 @@ public class JWTService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
 }
