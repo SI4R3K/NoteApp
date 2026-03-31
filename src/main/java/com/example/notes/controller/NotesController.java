@@ -51,10 +51,10 @@ public class NotesController {
         return notesService.searchByTitle(title);
     }
     
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @DeleteMapping("/{id}")
-    public void deleteNotesById(@PathVariable Long id) {
-        notesService.deleteNotesById(id);
+    public void deleteMyNotesById(@PathVariable Long id) {
+        notesService.deleteMyNotesById(id);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

@@ -46,6 +46,12 @@ public class NotesService {
     }
 
     public void deleteNotesById(Long id) {
+        Notes note = repo.findById(id)
+                        .orElseThrow(()->new NoteNotFoundException(id));
+        repo.delete(note);
+    }
+
+    public void deleteMyNotesById(Long id) {
         Users user = authService.getCurrentUser();
 
         Notes note = repo.findByIdAndUser(id, user)
