@@ -1,7 +1,6 @@
 package com.example.notes.service;
 
 import com.example.notes.repository.UserRepo;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;

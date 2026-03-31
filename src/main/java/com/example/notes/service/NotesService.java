@@ -2,7 +2,6 @@ package com.example.notes.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.notes.exception.NoteNotFoundException;
@@ -15,11 +14,11 @@ public class NotesService {
 
     private final AuthServive authService;
 
-    @Autowired
-    NotesRepository repo;
+    private final NotesRepository repo;
 
-    public NotesService(AuthServive authServive) {
+    public NotesService(AuthServive authServive, NotesRepository repo) {
         this.authService = authServive;
+        this.repo = repo;
     }
 
     public Notes addNote(Notes notes) {
