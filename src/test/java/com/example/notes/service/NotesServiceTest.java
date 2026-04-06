@@ -212,5 +212,6 @@ public class NotesServiceTest {
         verify(repo, times(1)).findByTitleAndUser("Good title", testUser);
     }
 
+    
 }
 

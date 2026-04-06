@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("notes")
+@RequestMapping("/notes")
 public class NotesController {
 
     private final NotesService notesService;
