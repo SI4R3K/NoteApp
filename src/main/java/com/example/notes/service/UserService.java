@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.notes.exception.RegistrationConflictException;
 import com.example.notes.model.Users;
 import com.example.notes.repository.UserRepo;
 
@@ -28,6 +29,19 @@ public class UserService {
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public Users register(Users user) {
+
+        boolean usernameTaken = repo.existsByUsername(user.getUsername());
+        boolean emailTaken = repo.existsByEmail(user.getEmail());
+
+        if (usernameTaken || emailTaken) {
+            throw new RegistrationConflictException(
+                usernameTaken, 
+                emailTaken, 
+                user.getUsername(), 
+                user.getEmail()
+            );
+        }
+
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
